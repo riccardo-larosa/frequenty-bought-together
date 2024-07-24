@@ -8,3 +8,7 @@ env.bak/
 venv.bak/
 myenv/
 API-Server/myenv/
+
+# macOS specific files
+.DS_Store
+
