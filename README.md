@@ -23,3 +23,9 @@ min_threshold=2
 ```
 
 ## Generating test data
+Generates orders in JSON format and saves them to file in /data/ directory or in a (local) MongoDB database "my_mongodb" in a collection "orders". 
+You can pass as an input the number of orders you'd like to generate
+```
+# Example usage
+python3 generate_orders.py True 150
+```
