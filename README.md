@@ -9,7 +9,8 @@ Start your environment with
 python3 -m venv myenv
 source myenv/bin/activate
 
-pip3 install mlxtend pandas apyori
+pip3 install -r requirements.txt
+
 
 deactivate
 ```
