@@ -95,5 +95,5 @@ with open(f'data/order_items_{num_records}.json', 'w') as f:
     
 save_orders(data, add_data_to_mongodb, num_records)
 # Example usage
-# python generate_orders.py True 150
+# python3 generate_orders.py True 150
 
