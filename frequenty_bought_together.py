@@ -10,18 +10,21 @@ def find_frequently_bought_together(transactions):
     te = TransactionEncoder()
     te_ary = te.fit(transactions).transform(transactions)
     df = pd.DataFrame(te_ary, columns=te.columns_)
-    #print (df)
+    print("DataFrame:\n")
+    print (df)
 
     # Apply the Apriori algorithm
     #frequent_itemsets = apriori(df, min_support=0.01, use_colnames=True)
     frequent_itemsets = fpgrowth(df, min_support=0.02, use_colnames=True)
-    #print(frequent_itemsets)
+    print("Frequent Itemsets:\n")
+    print(frequent_itemsets)
 
     # Generate association rules where the lift is at least 2
     fbt_list = association_rules(frequent_itemsets, metric="lift", min_threshold=2)
+    print("Association Rules:\n")
     print (fbt_list)
 
-    serialize_to_mongo(fbt_list)
+    #serialize_to_mongo(fbt_list)
 
     return fbt_list
  
@@ -87,7 +90,7 @@ def get_frequently_bought_together_rules(rules, item):
     return frequently_bought_together
 
 # Load the JSON data
-with open('data/order_items_100.json', 'r') as f:
+with open('data/order_items_50.json', 'r') as f:
     data = json.load(f)
 
 # Extract items from each order
