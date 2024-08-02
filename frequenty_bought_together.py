@@ -13,13 +13,17 @@ def find_frequently_bought_together(transactions):
     print("DataFrame:\n")
     print (df)
 
-    # Apply the Apriori algorithm
-    #frequent_itemsets = apriori(df, min_support=0.01, use_colnames=True)
+    # Apply the Apriori algorithm. The minimum support is set to 0.02.
+    # The support is computed as the fraction transactions_where_item(s)_occur / total_transactions.
     frequent_itemsets = fpgrowth(df, min_support=0.02, use_colnames=True)
     print("Frequent Itemsets:\n")
     print(frequent_itemsets)
 
     # Generate association rules where the lift is at least 2
+    # The lift metric is commonly used to measure how much more often 
+    # the antecedent and consequent of a rule A->C occur together
+    # than we would expect if they were statistically independent. 
+    # If lift = 1, then A and C are independent. If lift > 1, then A and C are dependent.
     fbt_list = association_rules(frequent_itemsets, metric="lift", min_threshold=2)
     print("Association Rules:\n")
     print (fbt_list)
