@@ -14,6 +14,7 @@ collection = db.frequently_bought_together
 def index():
     return "Welcome to the MongoDB REST API!"
 
+# Show the results with the hightest lift
 @app.route('/frequently_bought_together/<id>', methods=['GET'])
 def get_item(id):
     # Define the filter
