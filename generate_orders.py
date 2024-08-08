@@ -9,14 +9,14 @@ import sys
 items_list = [
     {"name": "Red Hat", "sku": "PcmProdSku2_837138451048"},
     {"name": "Green Shoe", "sku": "PcmProdSku1_820633028024"},
-    #{"name": "White Socks", "sku": "PIMBundle-sku-122527558739"},
-    #{"name": "Blue Jeans", "sku": "PcmProdSku3_837138451055"},
-    #{"name": "Yellow Shirt", "sku": "PcmProdSku4_837138451062"},
-    #{"name": "Black Belt", "sku": "PcmProdSku5_837138451069"},
-    #{"name": "Purple Scarf", "sku": "PcmProdSku6_837138451076"},
+    {"name": "White Socks", "sku": "PIMBundle-sku-122527558739"},
+    {"name": "Blue Jeans", "sku": "PcmProdSku3_837138451055"},
+    {"name": "Yellow Shirt", "sku": "PcmProdSku4_837138451062"},
+    {"name": "Black Belt", "sku": "PcmProdSku5_837138451069"},
+    {"name": "Purple Scarf", "sku": "PcmProdSku6_837138451076"},
     #{"name": "Orange Gloves", "sku": "PcmProdSku7_837138451083"},
-    {"name": "Pink Hat", "sku": "PcmProdSku8_837138451090"},
-    {"name": "Brown Boots", "sku": "PcmProdSku9_837138451097"}
+    #{"name": "Pink Hat", "sku": "PcmProdSku8_837138451090"},
+    #{"name": "Brown Boots", "sku": "PcmProdSku9_837138451097"}
 ]
 
 def generate_order(order_id):

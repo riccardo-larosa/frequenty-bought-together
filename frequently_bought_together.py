@@ -1,3 +1,4 @@
+import argparse
 import json
 import pandas as pd
 from mlxtend.frequent_patterns import fpgrowth, apriori, association_rules
@@ -5,7 +6,7 @@ from mlxtend.preprocessing import TransactionEncoder
 from pymongo import MongoClient
 from bson import ObjectId
 
-def find_frequently_bought_together(transactions):
+def find_frequently_bought_together(transactions, save_to_db=False):
     # Convert transactions to a DataFrame suitable for the mlxtend library
     te = TransactionEncoder()
     te_ary = te.fit(transactions).transform(transactions)
@@ -24,11 +25,13 @@ def find_frequently_bought_together(transactions):
     # the antecedent and consequent of a rule A->C occur together
     # than we would expect if they were statistically independent. 
     # If lift = 1, then A and C are independent. If lift > 1, then A and C are dependent.
-    fbt_list = association_rules(frequent_itemsets, metric="lift", min_threshold=2)
+    fbt_list = association_rules(frequent_itemsets, metric="lift", min_threshold=0.3)
     print("Association Rules:\n")
     print (fbt_list)
 
     #serialize_to_mongo(fbt_list)
+    if save_to_db:
+        serialize_to_mongo(fbt_list)    
 
     return fbt_list
  
@@ -93,22 +96,36 @@ def get_frequently_bought_together_rules(rules, item):
         
     return frequently_bought_together
 
-# Load the JSON data
-with open('data/order_items_50.json', 'r') as f:
-    data = json.load(f)
 
-# Extract items from each order
-orders = data['data']
-transactions = []
+def main():
 
-#transactions needs a list of items for each order
-for order in orders:
-    items = [item['name'] for item in order['relationships']['items']['data']]
-    transactions.append(items)
+     # Check if the database should be cleared (using the --reset flag).
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--reset", action="store_true", help="Reset the database.")
+    parser.add_argument("--json", type=str, help="The JSON file for orders to process")
+    parser.add_argument("--save_to_db", action="store_true", help="Save the frequently bought together rules to the database.")
+    args = parser.parse_args()
+    
+    # Load the JSON data
+    json_filepath = args.json
+    with open(json_filepath, 'r') as f: 
+        data = json.load(f)
 
-# Example usage
-item = 'Red Hat'
-fbt_list = find_frequently_bought_together(transactions)
-result = get_frequently_bought_together_rules(fbt_list, item)
+    # Extract items from each order
+    orders = data['data']
+    transactions = []
 
-print("Items frequently bought together with", item, ":", result)
+    #transactions needs a list of items for each order
+    for order in orders:
+        items = [item['name'] for item in order['relationships']['items']['data']]
+        transactions.append(items)
+
+    # Example usage
+    item = 'Red Hat'
+    fbt_list = find_frequently_bought_together(transactions, args.save_to_db)
+    result = get_frequently_bought_together_rules(fbt_list, item)
+
+    print("Items frequently bought together with", item, ":", result)
+
+if __name__ == "__main__":
+    main()
